@@ -2,6 +2,9 @@ FROM python:alpine3.7
 COPY . /app
 WORKDIR /app
 RUN pip install -r requirements.txt
-EXPOSE 5000 
+EXPOSE 5000
+HEALTHCHECK --interval=5s \
+            --timeout=5s \
+            CMD curl -f http://127.0.0.1:5000 || exit 1
 ENTRYPOINT [ "python" ]
 CMD [ "app.py" ]
