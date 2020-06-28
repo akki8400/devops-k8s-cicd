@@ -20,7 +20,7 @@ node {
          * For this example, we're using a Volkswagen-type approach ;-) */
 
         app.inside {
-            sh 'python --version'
+            sh 'python test.py'
         }
     }
     stage('Push image') {
