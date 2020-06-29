@@ -6,6 +6,7 @@ metadata:
   labels:
     app: smallcase-app
 spec:
+  type: LoadBalancer
   selector:
     app: smallcase-app
   ports:
