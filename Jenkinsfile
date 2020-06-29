@@ -23,18 +23,18 @@ node {
             sh 'python test.py'
         }
     }
-    stage('Push image') {
+    //stage('Push image') {
         /* Finally, we'll push the image with two tags:
          * First, the incremental build number from Jenkins
          * Second, the 'latest' tag.
          * Pushing multiple tags is cheap, as all the layers are reused. */
-        docker.withRegistry('https://registry.hub.docker.com', 'DOCKER_AKKI') {
-            app.push("${env.BUILD_NUMBER}")
-            app.push("latest")
-        }
-    }
+      //  docker.withRegistry('https://registry.hub.docker.com', 'DOCKER_AKKI') {
+        //    app.push("${env.BUILD_NUMBER}")
+          //  app.push("latest")
+        //}
+    //}
     stage('Update the deployment file'){
-     sh 'sed -i s/%IMAGE_NAME%/registry.hub.docker.com/megiakki/smallcase-task:${env.BUILD_NUMBER}/g flask-deployment.yaml'
+     sh 'sed -i s/%IMAGE_NO%/${env.BUILD_NUMBER}/g flask-deployment.yaml'
      sh 'cat flask-deployment.yaml'
     }
 }
