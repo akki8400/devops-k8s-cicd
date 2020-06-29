@@ -17,6 +17,6 @@ spec:
     spec:
       containers:
       - name: flask
-        image: registry.hub.docker.com/megiakki/smallcase-task:latest
+        image: %IMAGE_NAME%
         ports:
         - containerPort: 5000

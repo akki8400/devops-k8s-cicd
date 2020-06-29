@@ -33,4 +33,8 @@ node {
             app.push("latest")
         }
     }
+    stage('Update the deployment file'){
+     sh 'sed -i s/%IMAGE_NAME%/registry.hub.docker.com/megiakki/smallcase-task:${env.BUILD_NUMBER}/g flask-deployment.yaml'
+     sh 'cat flask-deployment.yaml'
+    }
 }
