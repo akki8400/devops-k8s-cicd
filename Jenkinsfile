@@ -40,17 +40,17 @@ node {
     stage('Deploy the flask app'){
     sh '''
             echo "Execute the deployment"
-            kubectl get namespace smallcase-demo
+            sudo /root/bin/kubectl get namespace smallcase-demo
             if [ $? -eq 0 ]; then
               echo "namespace smallcase-demo already exists"
             else
               echo "create smallcase-demo namespace"
-              kubectl create namespace smallcase-domo
+              sudo /root/bin/kubectl create namespace smallcase-domo
             fi
             echo "Apply the deployment"
-            kubectl apply -f flask-deployment.yaml
+            sudo /root/bin/kubectl apply -f flask-deployment.yaml
             echo "Create the flask service"
-            kubectl apply -f flask-service.yaml
+            sudo /root/bin/kubectl apply -f flask-service.yaml
 
             echo "Deployment done successfully"
       '''
