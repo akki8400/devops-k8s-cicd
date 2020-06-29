@@ -38,7 +38,17 @@ node {
      sh "cat flask-deployment.yaml"
     }
     stage('Deploy the flask app'){
+    withCredentials([[
+            $class: 'AmazonWebServicesCredentialsBinding',
+            credentialsId: 'AKASH_AWS',
+            accessKeyVariable: 'AWS_ACCESS_KEY_ID',
+            secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
+        ]]){
     sh '''
+            echo "Export credential variables"
+            export AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+            export AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+            export AWS_DEFAULT_REGION=ap-south-1
             echo "Execute the deployment"
             export PATH=$PATH:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/usr/lib/jvm/java-11-openjdk-11.0.7.10-1.el8_1.x86_64/bin:/root/bin:/root/bin:/usr/local/bin/aws
             sudo /root/bin/kubectl get namespace smallcase-demo
@@ -55,5 +65,5 @@ node {
 
             echo "Deployment done successfully"
       '''
-    }
+  }  }
 }
