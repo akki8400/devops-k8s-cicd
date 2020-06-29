@@ -34,7 +34,7 @@ node {
         //}
     //}
     stage('Update the deployment file'){
-     sh 'sed -i s/%IMAGE_NO%/${env.BUILD_NUMBER}/g flask-deployment.yaml'
-     sh 'cat flask-deployment.yaml'
+     sh "sed -i s/%IMAGE_NO%/${env.BUILD_NUMBER}/g flask-deployment.yaml"
+     sh "cat flask-deployment.yaml"
     }
 }
