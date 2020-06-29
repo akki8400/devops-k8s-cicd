@@ -40,6 +40,7 @@ node {
     stage('Deploy the flask app'){
     sh '''
             echo "Execute the deployment"
+            export PATH=$PATH:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/usr/lib/jvm/java-11-openjdk-11.0.7.10-1.el8_1.x86_64/bin:/root/bin:/root/bin
             sudo /root/bin/kubectl get namespace smallcase-demo
             if [ $? -eq 0 ]; then
               echo "namespace smallcase-demo already exists"
