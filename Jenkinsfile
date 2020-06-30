@@ -70,6 +70,8 @@ node {
               kubectl apply -f flask-deployment.yaml
               echo "Create the flask service"
               kubectl apply -f flask-service.yaml
+              echo "\n\n Deployment details \n\n"  
+              kubectl get all -n smallcase-demo
 
               echo "Deployment done successfully"
         '''
