@@ -1,45 +1,40 @@
 node {
     def app
     stage('clean workspace'){
+        echo 'Clean Workspace '
         cleanWs()
     }
     stage('Clone repository') {
-        /* Let's make sure we have the repository cloned to our workspace */
-
+        echo "Cloning git repository to workspace"
         checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'git_akash', url: 'https://github.com/akki8400/smallcase-task.git']]])
     }
 
     stage('Build image') {
-        /* This builds the actual image; synonymous to
-         * docker build on the command line */
-
+        echo 'Build the docker flask image'
         app = docker.build("megiakki/smallcase-task")
-        echo "${app}"
     }
 
     stage('Test image') {
-        /* Ideally, we would run a test framework against our image.
-         * For this example, we're using a Volkswagen-type approach ;-) */
-
+        echo 'Test the docker flask image'
         app.inside {
             sh 'python test.py'
         }
     }
     stage('Push image') {
-        /* Finally, we'll push the image with two tags:
-         * First, the incremental build number from Jenkins
-         * Second, the 'latest' tag.
-         * Pushing multiple tags is cheap, as all the layers are reused. */
+        echo 'Push image to the docker hub'
         docker.withRegistry('https://registry.hub.docker.com', 'DOCKER_AKKI') {
             app.push("${env.BUILD_NUMBER}")
             app.push("latest")
         }
     }
     stage('Update the deployment file'){
+    echo 'update the deployment files to re-apply it on deployment'
+
      sh "sed -i s/%IMAGE_NO%/${env.BUILD_NUMBER}/g flask-deployment.yaml"
      sh "cat flask-deployment.yaml"
     }
     stage('Deploy the flask app'){
+      echo 'Deploy the flasj image at AWS EKS, on Cluster already present in EKS'
       withCredentials([[
               $class: 'AmazonWebServicesCredentialsBinding',
               credentialsId: 'AKASH_AWS',
@@ -70,10 +65,40 @@ node {
               kubectl apply -f flask-deployment.yaml
               echo "Create the flask service"
               kubectl apply -f flask-service.yaml
-              echo "\n\n Deployment details \n\n"  
+              sleep 5s
+              echo "\n\n Deployment details \n\n"
               kubectl get all -n smallcase-demo
 
               echo "Deployment done successfully"
         '''
     }  }
+    stage('Deployment Test'){
+        echo 'Test the deployment using curl on service external address'
+        withCredentials([[
+                $class: 'AmazonWebServicesCredentialsBinding',
+                credentialsId: 'AKASH_AWS',
+                accessKeyVariable: 'AWS_ACCESS_KEY_ID',
+                secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
+            ]]){
+        sh '''
+                echo $PATH
+                export PATH=$PATH:/sbin:/usr/sbin:/bin:/usr/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/usr/lib/jvm/java-11-openjdk-11.0.7.10-1.el8_1.x86_64/bin:/root/bin:/root/bin:/usr/local/bin/aws:/var/lib/jenkins/bin
+                kubectl get all -n smallcase-demo
+                EXTERNAL_IP=`kubectl get service flask-service -n smallcase-demo | awk 'NR==2 {print $4}'`
+                STATUS_CODE=`curl -s -o /dev/null -w "%{http_code}" http://${EXTERNAL_IP}:5000`
+                echo $STATUS_CODE
+                if [ $STATUS_CODE -eq 200 ]; then
+                    echo "Deployment done successfully"
+                else
+                    echo "\n\nApplication not responding deployment Failed\n\n "
+                    exit 1
+                fi
+          '''
+        } }
+        stage('Clean docker images from local') {
+      sh '''
+          sudo docker images -a | grep "smallcase" | awk '{print $3}' | xargs docker rmi -f
+      '''
+
+  }
 }
