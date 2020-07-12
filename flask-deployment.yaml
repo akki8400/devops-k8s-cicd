@@ -17,6 +17,6 @@ spec:
     spec:
       containers:
       - name: flask
-        image: $(Parameters.containers)
+        image: akpracticeacr.azurecr.io/akpractice
         ports:
         - containerPort: 5000
