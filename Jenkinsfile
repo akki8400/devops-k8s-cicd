@@ -84,6 +84,7 @@ node {
                 echo $PATH
                 #export PATH=$PATH:/sbin:/usr/sbin:/bin:/usr/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/usr/lib/jvm/java-11-openjdk-11.0.7.10-1.el8_1.x86_64/bin:/root/bin:/root/bin:/usr/local/bin/aws:/var/lib/jenkins/bin
                 kubectl get all -n smallcase-demo
+                sleep 20s
                 EXTERNAL_IP=`kubectl get service flask-service -n smallcase-demo | awk 'NR==2 {print $4}'`
                 STATUS_CODE=`curl -s -o /dev/null -w "%{http_code}" http://${EXTERNAL_IP}:5000`
                 echo $STATUS_CODE
