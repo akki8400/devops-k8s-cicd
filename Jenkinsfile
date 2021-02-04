@@ -50,7 +50,7 @@ node {
               #mkdir -p $HOME/bin && cp ./kubectl $HOME/bin/kubectl && export PATH=$PATH:$HOME/bin
               kubectl version --short --client
               eksctl version
-              aws eks --region region update-kubeconfig --name versha-project
+              aws eks --region us-west-2 update-kubeconfig --name versha-project
               kubectl get svc
               echo "Execute the deployment"
               kubectl get namespace smallcase-demo
