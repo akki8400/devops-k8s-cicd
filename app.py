@@ -5,11 +5,11 @@ app = Flask(__name__)
 
 # list of cat images
 image_urls_map = {
-    "https://versha-project.s3-us-west-2.amazonaws.com/IMG_9086.JPG": "https://versha-project.s3-us-west-2.amazonaws.com/IMG_9086.JPG",
-    "https://versha-project.s3-us-west-2.amazonaws.com/IMG_9086.JPG": "https://versha-project.s3-us-west-2.amazonaws.com/IMG_9086.JPG",
-    "https://versha-project.s3-us-west-2.amazonaws.com/IMG_9086.JPG": "https://versha-project.s3-us-west-2.amazonaws.com/IMG_9086.JPG",
-    "https://versha-project.s3-us-west-2.amazonaws.com/IMG_9086.JPG": "https://versha-project.s3-us-west-2.amazonaws.com/IMG_9086.JPG",
-    "https://versha-project.s3-us-west-2.amazonaws.com/IMG_9086.JPG": "https://versha-project.s3-us-west-2.amazonaws.com/IMG_9086.JPG",
+    "https://assets.smallcase.com/images/smallcases/200/SCSB_0003.png": "https://smallcase.zerodha.com/smallcase/SCSB_0003",
+    "https://assets.smallcase.com/images/smallcases/200/SCSB_0004.png": "https://smallcase.zerodha.com/smallcase/SCSB_0004",
+    "https://assets.smallcase.com/images/smallcases/200/SCET_0005.png": "https://smallcase.zerodha.com/smallcase/SCET_0005",
+    "https://assets.smallcase.com/images/smallcases/200/SCNM_0007.png": "https://smallcase.zerodha.com/smallcase/SCNM_0007",
+    "https://assets.smallcase.com/images/smallcases/200/SCAW_0001.png": "https://smallcase.zerodha.com/smallcase/SCAW_0001",
 }
 
 
@@ -21,3 +21,4 @@ def index():
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0")
+    
