@@ -37,7 +37,7 @@ node {
       echo 'Deploy the flasj image at AWS EKS, on Cluster already present in EKS'
       withCredentials([[
               $class: 'AmazonWebServicesCredentialsBinding',
-              credentialsId: 'AKASH_AWS',
+              credentialsId: 'AWS_CREDS',
               accessKeyVariable: 'AWS_ACCESS_KEY_ID',
               secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
           ]]){
@@ -76,7 +76,7 @@ node {
         echo 'Test the deployment using curl on service external address'
         withCredentials([[
                 $class: 'AmazonWebServicesCredentialsBinding',
-                credentialsId: 'AKASH_AWS',
+                credentialsId: 'AWS_CREDS',
                 accessKeyVariable: 'AWS_ACCESS_KEY_ID',
                 secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
             ]]){
