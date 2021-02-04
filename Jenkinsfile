@@ -53,7 +53,7 @@ node {
               aws eks --region us-west-2 update-kubeconfig --name versha-project
               kubectl get svc
               echo "Execute the deployment"
-              kubectl create namespace smallcase-demo
+              #kubectl create namespace smallcase-demo
               if [ $? -eq 0 ]; then
                   echo "namespace smallcase-demo already exists"
                   kubectl get all -n smallcase-demo
