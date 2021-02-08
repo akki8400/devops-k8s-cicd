@@ -11,7 +11,7 @@ node {
 
     stage('Build image') {
         echo 'Build the docker flask image'
-        app = docker.build("megiakki/smallcase-task")
+        app = docker.build("megiakki/versha-project")
     }
 
     stage('Test image') {
