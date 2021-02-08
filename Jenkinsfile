@@ -98,7 +98,7 @@ node {
         } }
         stage('Clean docker images from local') {
       sh '''
-          sudo docker images -a | grep "smallcase" | awk '{print $3}' | xargs docker rmi -f
+          sudo docker images -a | grep "versha-project" | awk '{print $3}' | xargs docker rmi -f
       '''
 
   }
