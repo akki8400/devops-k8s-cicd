@@ -17,6 +17,6 @@ spec:
     spec:
       containers:
       - name: flask
-        image: registry.hub.docker.com/megiakki/smallcase-task:%IMAGE_NO%
+        image: registry.hub.docker.com/megiakki/versha-project:%IMAGE_NO%
         ports:
         - containerPort: 5000
